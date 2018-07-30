@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="coverlet.msbuild" Version="2.1.1" />
     <PackageReference Include="FluentAssertions" Version="5.4.1" />
     <PackageReference Include="FluentAssertions.Analyzers" Version="0.11.3" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
@@ -17,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ProcessStartAsync\ProcessStartAsync.csproj" />
+    <ProjectReference Include="..\..\src\ProcessStartAsync\ProcessStartAsync.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-            <ProjectReference Include="..\ProcessStartAsync\ProcessStartAsync.csproj" />
+            <ProjectReference Include="..\..\src\ProcessStartAsync\ProcessStartAsync.csproj" />
   </ItemGroup>
 
 </Project>
