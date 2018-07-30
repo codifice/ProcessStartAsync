@@ -38,7 +38,7 @@ namespace System.Diagnostics
                     helper.Object.ProcessStarted,
                     cts.Token)).ConfigureAwait(false);
             sw.Stop();
-            sw.Elapsed.Should().BeLessThan(TimeSpan.FromSeconds(0.6));
+            sw.Elapsed.Should().BeLessThan(TimeSpan.FromSeconds(1));
             helper.Verify(h => h.ProcessStarted(It.IsAny<Process>()), Times.Once);
             helper.Verify(h => h.Output(It.IsAny<string>()), Times.AtLeastOnce);
             helper.Verify(h => h.Error(It.IsAny<string>()), Times.Never);
