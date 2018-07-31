@@ -63,6 +63,24 @@ namespace System.Diagnostics
         }
 
         [Fact]
+        public async Task CanInvokeAProcessAndCaptureStandardError()
+        {
+            var psi = new ProcessStartInfo("cmd.exe", "/c @echo Goodbye Cruel World 1>&2");
+            var helper = new Mock<ITestHelper>();
+            var cts = new CancellationTokenSource();
+            cts.CancelAfter(TimeSpan.FromSeconds(2));
+            var result = await psi.StartAsync(
+                             helper.Object.Output,
+                             helper.Object.Error,
+                             helper.Object.ProcessStarted,
+                             cts.Token).ConfigureAwait(false);
+            result.Should().Be(0);
+            helper.Verify(h => h.ProcessStarted(It.IsAny<Process>()), Times.Once);
+            helper.Verify(h => h.Error("Goodbye Cruel World "), Times.Once);
+            helper.Verify(h => h.Output(It.IsAny<string>()), Times.Never);
+        }
+
+        [Fact]
         public async Task CanInvokeAProcessThatErrorsAndCaptureStatus()
         {
             var psi = new ProcessStartInfo("cmd.exe", "/c ping 0.0.0.0 -n 1");

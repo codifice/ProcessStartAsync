@@ -16,101 +16,6 @@
         /// <param name="startInfo">
         ///     The <see cref="ProcessStartInfo" /> describing the process to launch
         /// </param>
-        /// <returns>
-        ///     The <see cref="Task" /> representing the executing process.  The completed result will be the exit code value.
-        /// </returns>
-        /// <exception cref="InvalidOperationException">
-        ///     Thrown if the process cannot be started
-        /// </exception>
-        public static Task<int> StartAsync([NotNull] this ProcessStartInfo startInfo)
-        {
-            return startInfo.StartAsync(null, null, null, CancellationToken.None);
-        }
-
-        /// <summary>
-        ///     Start the process in an async, cancellable manner
-        /// </summary>
-        /// <param name="startInfo">
-        ///     The <see cref="ProcessStartInfo" /> describing the process to launch
-        /// </param>
-        /// <param name="cancellationToken">
-        ///     The cancellation token.
-        /// </param>
-        /// <returns>
-        ///     The <see cref="Task" /> representing the executing process.  The completed result will be the exit code value.
-        /// </returns>
-        /// <exception cref="InvalidOperationException">
-        ///     Thrown if the process cannot be started
-        /// </exception>
-        public static Task<int> StartAsync(
-            [NotNull] this ProcessStartInfo startInfo,
-            CancellationToken cancellationToken)
-        {
-            return startInfo.StartAsync(null, null, null, cancellationToken);
-        }
-
-        /// <summary>
-        ///     Start the process in an async, cancellable manner
-        /// </summary>
-        /// <param name="startInfo">
-        ///     The <see cref="ProcessStartInfo" /> describing the process to launch
-        /// </param>
-        /// <param name="startedCallback">
-        ///     Callback invoked with the started <see cref="Process" />
-        /// </param>
-        /// <param name="cancellationToken">
-        ///     The cancellation token.
-        /// </param>
-        /// <returns>
-        ///     The <see cref="Task" /> representing the executing process.  The completed result will be the exit code value.
-        /// </returns>
-        /// <exception cref="InvalidOperationException">
-        ///     Thrown if the process cannot be started
-        /// </exception>
-        public static Task<int> StartAsync(
-            [NotNull] this ProcessStartInfo startInfo,
-            Action<Process> startedCallback,
-            CancellationToken cancellationToken)
-        {
-            return startInfo.StartAsync(null, null, startedCallback, cancellationToken);
-        }
-
-        /// <summary>
-        ///     Start the process in an async manner
-        /// </summary>
-        /// <param name="startInfo">
-        ///     The <see cref="ProcessStartInfo" /> describing the process to launch
-        /// </param>
-        /// <param name="outputMessage">
-        ///     Callback for each line of text emitted on the launched Process's Standard Output Stream
-        /// </param>
-        /// <param name="errorMessage">
-        ///     Callback for each line of text emitted on the launched Process's Standard Error Stream
-        /// </param>
-        /// <param name="cancellationToken">
-        ///     The cancellation token.
-        /// </param>
-        /// <returns>
-        ///     The <see cref="Task" /> representing the executing process.  The completed result will be the exit code value.
-        /// </returns>
-        /// <exception cref="InvalidOperationException">
-        ///     Thrown if the process cannot be started
-        /// </exception>
-        public static Task<int> StartAsync(
-            [NotNull] this ProcessStartInfo startInfo,
-            Action<string> outputMessage,
-            Action<string> errorMessage,
-            CancellationToken cancellationToken)
-        {
-            return startInfo.StartAsync(outputMessage, errorMessage, null, cancellationToken);
-        }
-
-        /// <summary>
-        ///     Start the process in an async manner
-        /// </summary>
-        /// <param name="startInfo">
-        ///     The <see cref="ProcessStartInfo" /> describing the process to launch
-        /// </param>
         /// <param name="outputMessage">
         ///     Callback for each line of text emitted on the launched Process's Standard Output Stream
         /// </param>
@@ -131,11 +36,16 @@
         /// </exception>
         public static async Task<int> StartAsync(
             [NotNull] this ProcessStartInfo startInfo,
-            Action<string> outputMessage,
-            Action<string> errorMessage,
-            Action<Process> startedCallback,
-            CancellationToken cancellationToken)
+            Action<string> outputMessage = null,
+            Action<string> errorMessage = null,
+            Action<Process> startedCallback = null,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (cancellationToken == default(CancellationToken))
+            {
+                cancellationToken = CancellationToken.None;
+            }
+
             startInfo.RedirectStandardOutput = true;
             startInfo.RedirectStandardError = true;
             startInfo.UseShellExecute = false;

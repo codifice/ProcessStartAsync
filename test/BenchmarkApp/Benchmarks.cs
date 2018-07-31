@@ -11,11 +11,12 @@
     public class Benchmarks
     {
         [Benchmark]
-        public async Task<int> HappyRunAsync()
+        public Task<int> HappyRunAsync()
         {
             var cts = new CancellationTokenSource();
             cts.CancelAfter(TimeSpan.FromSeconds(10));
-            return await new ProcessStartInfo("cmd.exe", "/c @echo \"Hello World!\"").StartAsync(cts.Token);
+            return new ProcessStartInfo("cmd.exe", "/c @echo \"Hello World!\"")
+                .StartAsync(cancellationToken: cts.Token);
         }
     }
 }
