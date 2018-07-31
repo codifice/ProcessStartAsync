@@ -1,5 +1,6 @@
 image: Visual Studio 2017
-
+environment:
+  - SONAR_KEY:GbMflncwje+wnuVU8gtWsUctEOWNdUs2D1xRejCdqcrwmcGmEIW7jn1YAV8bgyk4 
 install:
   - choco install gitversion.portable -pre -y
   - dotnet tool install --global dotnet-sonarscanner
@@ -9,7 +10,7 @@ assembly_info:
 
 before_build:
   - nuget restore
-  - cmd: dotnet sonarscanner begin /k:"ProcessStartAsync"  /d:sonar.organization="martinjarvis-github" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="GbMflncwje+wnuVU8gtWsUctEOWNdUs2D1xRejCdqcrwmcGmEIW7jn1YAV8bgyk4" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" /d:sonar.coverage.exclusions="test/**"
+  - cmd: dotnet sonarscanner begin /k:"ProcessStartAsync"  /d:sonar.organization="martinjarvis-github" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="%SONAR_KEY%" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" /d:sonar.coverage.exclusions="test/**"
   - ps: gitversion /l console /output buildserver /updateAssemblyInfo    
   - cmd: dotnet setversion %GitVersion_NuGetVersion%
  
@@ -26,4 +27,4 @@ test_script:
 - cmd: dotnet test test/ProcessStartAsync.UnitTests/ProcessStartAsync.UnitTests.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
 
 on_finish:
-- cmd: dotnet sonarscanner end /d:sonar.login="GbMflncwje+wnuVU8gtWsUctEOWNdUs2D1xRejCdqcrwmcGmEIW7jn1YAV8bgyk4"
+- cmd: dotnet sonarscanner end /d:sonar.login="%SONAR_KEY%"
