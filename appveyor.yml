@@ -1,6 +1,8 @@
 image: Visual Studio 2017
 environment:
-  - SONAR_KEY:GbMflncwje+wnuVU8gtWsUctEOWNdUs2D1xRejCdqcrwmcGmEIW7jn1YAV8bgyk4 
+  global:
+    SONAR_KEY:
+      secure: GbMflncwje+wnuVU8gtWsUctEOWNdUs2D1xRejCdqcrwmcGmEIW7jn1YAV8bgyk4 
 install:
   - choco install gitversion.portable -pre -y
   - dotnet tool install --global dotnet-sonarscanner
