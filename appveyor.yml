@@ -13,8 +13,8 @@ assembly_info:
 before_build:
   - nuget restore
   - cmd: dotnet sonarscanner begin /k:"ProcessStartAsync"  /d:sonar.organization="martinjarvis-github" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="%SONAR_KEY%" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" /d:sonar.coverage.exclusions="test/**"
-  - ps: gitversion /l console /output buildserver /updateAssemblyInfo    
-  - cmd: dotnet setversion %GitVersion_NuGetVersion%
+#  - ps: gitversion /l console /output buildserver /updateAssemblyInfo    
+#  - cmd: dotnet setversion %GitVersion_NuGetVersion%
  
 build:
   publish_nuget: true
