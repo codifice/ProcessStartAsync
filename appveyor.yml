@@ -3,21 +3,22 @@ environment:
   global:
     SONAR_KEY:
       secure: GbMflncwje+wnuVU8gtWsUctEOWNdUs2D1xRejCdqcrwmcGmEIW7jn1YAV8bgyk4 
-      
-      
+
+      # Do not build feature branch with open Pull Requests
+skip_branch_with_pr: true      
+ 
 install:
-  - choco source
   - choco install gitversion.portable -pre -y
   - choco install codecov -y
   - dotnet tool install --global dotnet-sonarscanner
-
+  
 assembly_info:
   patch: false
 
 before_build:
   - nuget restore
   - ps: gitversion /l console /output buildserver /updateAssemblyInfo 
-  - ps: Update-AppveyorBuild -Version "${env:GitVersion_NuGetVersion}"
+  - ps: Update-AppveyorBuild -Version "${env:GitVersion_NuGetVersion}-${env:APPVEYOR_BUILD_NUMBER}"
   - cmd: dotnet sonarscanner begin /k:"ProcessStartAsync"  /d:sonar.organization="martinjarvis-github" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="%SONAR_KEY%" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" /d:sonar.coverage.exclusions="test/**" /v:"%GitVersion_NuGetVersion%"
      
  

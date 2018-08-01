@@ -27,6 +27,12 @@
     <WarningsAsErrors />
     <DocumentationFile>bin\Debug\netcoreapp2.1\ProcessStartAsync.xml</DocumentationFile>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp2.1|AnyCPU'">
+    <CodeAnalysisRuleSet>ProcessStartAsync.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp2.1|AnyCPU'">
+    <CodeAnalysisRuleSet>ProcessStartAsync.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <None Remove="dotnet" />
   </ItemGroup>
