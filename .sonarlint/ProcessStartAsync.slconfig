@@ -1,0 +1,14 @@
+{
+  "ServerUri": "https://sonarcloud.io",
+  "Organization": {
+    "Key": "martinjarvis-github",
+    "Name": "martinjarvis"
+  },
+  "ProjectKey": "ProcessStartAsync",
+  "Profiles": {
+    "CSharp": {
+      "ProfileKey": "AWTs8CogGEjsfxbZAo-q",
+      "ProfileTimestamp": "2018-07-18T11:34:53+01:00"
+    }
+  }
+}
