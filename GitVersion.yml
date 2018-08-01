@@ -1,7 +1,5 @@
-branches:
-  master:
-    mode: ContinuousDeployment
-    tag: ''
-  (pull|pull\-requests|pr)[/-]: {}
+assembly-versioning-scheme: MajorMinorPatchTag
+mode: Mainline
+branches: {}
 ignore:
   sha: []
