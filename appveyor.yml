@@ -17,11 +17,14 @@ assembly_info:
 before_build:
   - nuget restore
   - ps: gitversion /l console /output buildserver /updateAssemblyInfo 
+  - ps: Update-AppveyorBuild -Version "${env:GitVersion_NuGetVersion}"
   - cmd: dotnet sonarscanner begin /k:"ProcessStartAsync"  /d:sonar.organization="martinjarvis-github" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="%SONAR_KEY%" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" /d:sonar.coverage.exclusions="test/**" /d:sonar.projectVersion="%GitVersion_NuGetVersion%"
      
  
 build:
   publish_nuget: true
+  publish_nuget_symbols: true
+  parallel: true
   verbosity: minimal
 
 after_build:

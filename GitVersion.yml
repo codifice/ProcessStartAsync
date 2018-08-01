@@ -1,5 +1,5 @@
 assembly-versioning-scheme: MajorMinorPatchTag
-mode: Mainline
+mode: ContinuousDeployment
 branches: {}
 ignore:
   sha: []
