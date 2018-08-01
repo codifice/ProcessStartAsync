@@ -28,7 +28,7 @@ build:
   verbosity: minimal
 
 after_build:
-  - cmd: appveyor PushArtifact "ProcessStartAsync.%GitVersion_NuGetVersion%.nupkg"  
+#  - cmd: appveyor PushArtifact "ProcessStartAsync.%GitVersion_NuGetVersion%.nupkg"  
 
 test_script:
   - cmd: dotnet test test/ProcessStartAsync.UnitTests/ProcessStartAsync.UnitTests.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
