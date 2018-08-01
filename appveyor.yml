@@ -17,7 +17,7 @@ assembly_info:
 before_build:
   - nuget restore
   - ps: gitversion /l console /output buildserver /updateAssemblyInfo 
-  - ps: Update-AppveyorBuild -Version "${env:GitVersion_NuGetVersion}"
+  - ps: Update-AppveyorBuild -Version "${env:GitVersion_NuGetVersion}-${env:APPVEYOR_BUILD_NUMBER}"
   - cmd: dotnet sonarscanner begin /k:"ProcessStartAsync"  /d:sonar.organization="martinjarvis-github" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="%SONAR_KEY%" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" /d:sonar.coverage.exclusions="test/**" /v:"%GitVersion_NuGetVersion%" /d:sonar.branch.name="%APPVEYOR_REPO_BRANCH%"
      
  
