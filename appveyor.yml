@@ -3,7 +3,10 @@ environment:
   global:
     SONAR_KEY:
       secure: GbMflncwje+wnuVU8gtWsUctEOWNdUs2D1xRejCdqcrwmcGmEIW7jn1YAV8bgyk4 
+      
+      
 install:
+  - choco source
   - choco install gitversion.portable -pre -y
   - choco install codecov -y
   - dotnet tool install --global dotnet-sonarscanner
@@ -23,9 +26,9 @@ build:
 after_build:
 #  - cmd: ECHO nuget pack src\ProcessStartAsync\ProcessStartAsync.csproj -version "%GitVersion_NuGetVersion%" -prop "target=%CONFIGURATION%"
 #  - cmd: nuget pack src\ProcessStartAsync\ProcessStartAsync.csproj -version "%GitVersion_NuGetVersion%" -prop "target=%CONFIGURATION%"
-#  - cmd: appveyor PushArtifact "ProcessStartAsync.%GitVersion_NuGetVersion%.nupkg"
-  
-test_script:
+  - cmd: appveyor PushArtifact "ProcessStartAsync.%GitVer#sion_NuGetVersion%.nupkg"  
+
+  test_script:
 - cmd: dotnet test test/ProcessStartAsync.UnitTests/ProcessStartAsync.UnitTests.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
 
 on_finish:
