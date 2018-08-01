@@ -6,25 +6,11 @@ environment:
 
       # Do not build feature branch with open Pull Requests
 skip_branch_with_pr: true      
-
-cache:
-#  - packages -> **\packages.config  # preserve "packages" directory in the root of build folder but will reset it if packages.config is modified
-#  - node_modules                    # local npm modules
-#  - '%LocalAppData%\NuGet\Cache'    # NuGet < v3
-#  - '%LocalAppData%\NuGet\v3-cache' # NuGet v3#
-#  - C:\ProgramData\chocolatey\bin -> appveyor.yml
-#  - C:\ProgramData\chocolatey\lib -> appveyor.yml
-
-#nuget:
-#  account_feed: true
-#  project_feed: true
-  
+ 
 install:
-  - choco source
   - choco install gitversion.portable -pre -y
   - choco install codecov -y
   - dotnet tool install --global dotnet-sonarscanner
-
   
 assembly_info:
   patch: false
@@ -33,7 +19,7 @@ before_build:
   - nuget restore
   - ps: gitversion /l console /output buildserver /updateAssemblyInfo 
   - ps: Update-AppveyorBuild -Version "${env:GitVersion_NuGetVersion}-${env:APPVEYOR_BUILD_NUMBER}"
-  - cmd: dotnet sonarscanner begin /k:"ProcessStartAsync"  /d:sonar.organization="martinjarvis-github" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="%SONAR_KEY%" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" /d:sonar.coverage.exclusions="test/**" /v:"%GitVersion_NuGetVersion%" /d:sonar.branch.name="%APPVEYOR_REPO_BRANCH%"
+  - cmd: dotnet sonarscanner begin /k:"ProcessStartAsync"  /d:sonar.organization="martinjarvis-github" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="%SONAR_KEY%" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" /d:sonar.coverage.exclusions="test/**" /v:"%GitVersion_NuGetVersion%"
      
  
 build:
