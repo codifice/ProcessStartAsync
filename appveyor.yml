@@ -24,13 +24,11 @@ build:
   verbosity: minimal
 
 after_build:
-#  - cmd: ECHO nuget pack src\ProcessStartAsync\ProcessStartAsync.csproj -version "%GitVersion_NuGetVersion%" -prop "target=%CONFIGURATION%"
-#  - cmd: nuget pack src\ProcessStartAsync\ProcessStartAsync.csproj -version "%GitVersion_NuGetVersion%" -prop "target=%CONFIGURATION%"
   - cmd: appveyor PushArtifact "ProcessStartAsync.%GitVer#sion_NuGetVersion%.nupkg"  
 
-  test_script:
-- cmd: dotnet test test/ProcessStartAsync.UnitTests/ProcessStartAsync.UnitTests.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+test_script:
+  - cmd: dotnet test test/ProcessStartAsync.UnitTests/ProcessStartAsync.UnitTests.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
 
 on_finish:
-- codecov -f test/ProcessStartAsync.UnitTests/coverage.opencover.xml
-- cmd: dotnet sonarscanner end /d:sonar.login="%SONAR_KEY%"
+  - cmd: codecov -f test/ProcessStartAsync.UnitTests/coverage.opencover.xml
+  - cmd: dotnet sonarscanner end /d:sonar.login="%SONAR_KEY%"
