@@ -3,6 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFrameworks>netcoreapp2.1</TargetFrameworks>
+    <DebugType>full</DebugType>
   </PropertyGroup>
 
   <ItemGroup>

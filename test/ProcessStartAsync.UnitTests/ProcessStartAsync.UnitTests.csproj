@@ -4,6 +4,7 @@
     <TargetFrameworks>netcoreapp2.1</TargetFrameworks>
     <IsPackable>false</IsPackable>
     <RootNamespace>System.Diagnostics</RootNamespace>
+    <DebugType>full</DebugType>
   </PropertyGroup>
 
   <ItemGroup>
