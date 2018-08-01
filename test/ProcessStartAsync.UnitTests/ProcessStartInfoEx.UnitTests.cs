@@ -11,17 +11,8 @@ namespace System.Diagnostics
     using Xunit;
 
     // ReSharper disable once TestFileNameWarning
-    public class ProcessStartInfoExUnitTests
+    public partial class ProcessStartInfoExUnitTests
     {
-        public interface ITestHelper
-        {
-            void Error(string message);
-
-            void Output(string message);
-
-            void ProcessStarted(Process p);
-        }
-
         [Fact]
         public async Task CanCancelALongRunningProcess()
         {

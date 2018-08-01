@@ -8,7 +8,7 @@
     /// <summary>
     ///     <see cref="ProcessStartInfo" /> extensions.
     /// </summary>
-    public static class ProcessStartInfoEx
+    public static partial class ProcessStartInfoEx
     {
         /// <summary>
         ///     Start the process in an async manner
@@ -36,16 +36,11 @@
         /// </exception>
         public static async Task<int> StartAsync(
             [NotNull] this ProcessStartInfo startInfo,
-            Action<string> outputMessage = null,
-            Action<string> errorMessage = null,
-            Action<Process> startedCallback = null,
-            CancellationToken cancellationToken = default(CancellationToken))
+            Action<string> outputMessage,
+            Action<string> errorMessage,
+            Action<Process> startedCallback,
+            CancellationToken cancellationToken)
         {
-            if (cancellationToken == default(CancellationToken))
-            {
-                cancellationToken = CancellationToken.None;
-            }
-
             startInfo.RedirectStandardOutput = true;
             startInfo.RedirectStandardError = true;
             startInfo.UseShellExecute = false;
@@ -96,11 +91,8 @@
                             errorMessage?.Invoke(e.Data);
                         }
                     };
-                if (!ps.Start())
-                {
-                    throw new InvalidOperationException(
-                        $"Failed to start \"{startInfo.FileName} {startInfo.Arguments}\"");
-                }
+                ps.Start();
+
 
                 ps.BeginErrorReadLine();
                 ps.BeginOutputReadLine();
