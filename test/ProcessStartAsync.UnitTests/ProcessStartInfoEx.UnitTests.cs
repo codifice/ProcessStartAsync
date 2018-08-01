@@ -139,7 +139,7 @@ namespace System.Diagnostics
         [Fact]
         public static async Task CanInvokeAProcessThatErrorsAndCaptureStatus()
         {
-            var psi = new ProcessStartInfo("cmd.exe", "/c ping 0.0.0.0 -n 1");
+            var psi = new ProcessStartInfo("cmd.exe", "/c @echo. && ping 0.0.0.0 -n 1");
             var helper = new Mock<ITestHelper>();
             var cts = new CancellationTokenSource();
             cts.CancelAfter(TimeSpan.FromSeconds(2));
