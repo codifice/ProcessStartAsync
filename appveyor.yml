@@ -16,15 +16,16 @@ assembly_info:
 
 before_build:
   - nuget restore
-  - cmd: dotnet sonarscanner begin /k:"ProcessStartAsync"  /d:sonar.organization="martinjarvis-github" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="%SONAR_KEY%" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" /d:sonar.coverage.exclusions="test/**"
-  - ps: gitversion /l console /output buildserver /updateAssemblyInfo    
+  - ps: gitversion /l console /output buildserver /updateAssemblyInfo 
+  - cmd: dotnet sonarscanner begin /k:"ProcessStartAsync"  /d:sonar.organization="martinjarvis-github" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="%SONAR_KEY%" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" /d:sonar.coverage.exclusions="test/**" /d:sonar.projectVersion="%GitVersion_NuGetVersion%"
+     
  
 build:
   publish_nuget: true
   verbosity: minimal
 
 after_build:
-  - cmd: appveyor PushArtifact "ProcessStartAsync.%GitVer#sion_NuGetVersion%.nupkg"  
+  - cmd: appveyor PushArtifact "ProcessStartAsync.%GitVersion_NuGetVersion%.nupkg"  
 
 test_script:
   - cmd: dotnet test test/ProcessStartAsync.UnitTests/ProcessStartAsync.UnitTests.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
