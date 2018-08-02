@@ -5,6 +5,7 @@
     <IsPackable>false</IsPackable>
     <RootNamespace>System.Diagnostics</RootNamespace>
     <DebugType>full</DebugType>
+    <SonarQubeTestProject>True</SonarQubeTestProject>
   </PropertyGroup>
 
   <ItemGroup>

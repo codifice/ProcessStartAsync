@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.1</TargetFrameworks>
-    <RootNamespace>System.Diagnostics</RootNamespace>
+    <TargetFramework>netstandard1.3</TargetFramework>
+  <RootNamespace>System.Diagnostics</RootNamespace>
     <Authors>Martin Jarvis</Authors>
     <Company>MCJ Development Ltd</Company>
     <Description>Converts executing a command line process into an Cancellable Task</Description>
@@ -15,29 +16,25 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DebugType>full</DebugType>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
-    <DocumentationFile>bin\Release\netcoreapp2.1\ProcessStartAsync.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\netstandard1.3\ProcessStartAsync.xml</DocumentationFile>
+    <CodeAnalysisRuleSet>ProcessStartAsync.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DebugType>full</DebugType>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
-    <DocumentationFile>bin\Debug\netcoreapp2.1\ProcessStartAsync.xml</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp2.1|AnyCPU'">
+    <DocumentationFile>bin\Debug\netstandard1.3\ProcessStartAsync.xml</DocumentationFile>
     <CodeAnalysisRuleSet>ProcessStartAsync.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp2.1|AnyCPU'">
-    <CodeAnalysisRuleSet>ProcessStartAsync.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <ItemGroup>
-    <None Remove="dotnet" />
-  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" Version="2018.2.1" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta-63127-02" PrivateAssets="All" />
+    <PackageReference Include="System.Diagnostics.Process" Version="4.3.0" />
   </ItemGroup>
+
 </Project>
