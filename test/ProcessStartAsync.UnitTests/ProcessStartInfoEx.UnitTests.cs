@@ -12,6 +12,9 @@ namespace System.Diagnostics
     // ReSharper disable once TestFileNameWarning
     public static class ProcessStartInfoExUnitTests
     {
+        private const string StandardErrorMessage = "Goodbye Cruel World";
+        private const string StandardOutputMessage = "Hello World";
+
         [Fact]
         public static async Task CanCancelALongRunningProcess()
         {
@@ -37,11 +40,11 @@ namespace System.Diagnostics
         [Fact]
         public static async Task CanInvokeAndMonitorOutput()
         {
-            var psi = new ProcessStartInfo("cmd.exe", "/c @echo Hello World && @echo.");
+            var psi = new ProcessStartInfo("cmd.exe", $"/c @echo {StandardOutputMessage}");
             var helper = new Mock<ITestHelper>();
             var result = await psi.StartAsync(helper.Object.Output).ConfigureAwait(false);
             result.Should().Be(0);
-            helper.Verify(h => h.Output("Hello World "), Times.Once);
+            helper.Verify(h => h.Output(StandardOutputMessage), Times.Once);
             helper.Verify(h => h.ProcessStarted(It.IsAny<Process>()), Times.Never);
             helper.Verify(h => h.Error(It.IsAny<string>()), Times.Never);
         }
@@ -49,13 +52,13 @@ namespace System.Diagnostics
         [Fact]
         public static async Task CanInvokeAndMonitorOutputAndCancellationToken()
         {
-            var psi = new ProcessStartInfo("cmd.exe", "/c @echo Hello World && @echo.");
+            var psi = new ProcessStartInfo("cmd.exe", $"/c @echo {StandardOutputMessage}");
             var helper = new Mock<ITestHelper>();
             var cts = new CancellationTokenSource();
             cts.CancelAfter(TimeSpan.FromSeconds(2));
             var result = await psi.StartAsync(helper.Object.Output, cts.Token).ConfigureAwait(false);
             result.Should().Be(0);
-            helper.Verify(h => h.Output("Hello World "), Times.Once);
+            helper.Verify(h => h.Output(StandardOutputMessage), Times.Once);
             helper.Verify(h => h.ProcessStarted(It.IsAny<Process>()), Times.Never);
             helper.Verify(h => h.Error(It.IsAny<string>()), Times.Never);
         }
@@ -63,47 +66,47 @@ namespace System.Diagnostics
         [Fact]
         public static async Task CanInvokeAndMonitorOutputAndError()
         {
-            var psi = new ProcessStartInfo("cmd.exe", "/c @echo Hello World && @echo. && @echo Goodbye Cruel World 1>&2");
+            var psi = new ProcessStartInfo("cmd.exe", $"/c @echo {StandardOutputMessage} && @echo {StandardErrorMessage} 1>&2");
             var helper = new Mock<ITestHelper>();
             var result = await psi.StartAsync(helper.Object.Output, helper.Object.Error).ConfigureAwait(false);
             result.Should().Be(0);
-            helper.Verify(h => h.Output("Hello World "), Times.Once);
-            helper.Verify(h => h.Error("Goodbye Cruel World "), Times.Once);
+            helper.Verify(h => h.Output(StandardOutputMessage), Times.Once);
+            helper.Verify(h => h.Error(StandardErrorMessage), Times.Once);
             helper.Verify(h => h.ProcessStarted(It.IsAny<Process>()), Times.Never);
         }
 
         [Fact]
         public static async Task CanInvokeAndMonitorOutputAndErrorAndCancellationToken()
         {
-            var psi = new ProcessStartInfo("cmd.exe", "/c @echo Hello World && @echo. && @echo Goodbye Cruel World 1>&2");
+            var psi = new ProcessStartInfo("cmd.exe", $"/c @echo {StandardOutputMessage} && @echo {StandardErrorMessage} 1>&2");
             var helper = new Mock<ITestHelper>();
             var cts = new CancellationTokenSource();
             cts.CancelAfter(TimeSpan.FromSeconds(2));
             var result = await psi.StartAsync(helper.Object.Output, helper.Object.Error, cts.Token)
                              .ConfigureAwait(false);
             result.Should().Be(0);
-            helper.Verify(h => h.Output("Hello World "), Times.Once);
-            helper.Verify(h => h.Error("Goodbye Cruel World "), Times.Once);
+            helper.Verify(h => h.Output(StandardOutputMessage), Times.Once);
+            helper.Verify(h => h.Error(StandardErrorMessage), Times.Once);
             helper.Verify(h => h.ProcessStarted(It.IsAny<Process>()), Times.Never);
         }
 
         [Fact]
         public static async Task CanInvokeAndMonitorOutputAndErrorAndProcessStarted()
         {
-            var psi = new ProcessStartInfo("cmd.exe", "/c @echo Hello World && @echo. && @echo Goodbye Cruel World 1>&2");
+            var psi = new ProcessStartInfo("cmd.exe", $"/c @echo {StandardOutputMessage} && @echo {StandardErrorMessage} 1>&2");
             var helper = new Mock<ITestHelper>();
             var result = await psi.StartAsync(helper.Object.Output, helper.Object.Error, helper.Object.ProcessStarted)
                              .ConfigureAwait(false);
             result.Should().Be(0);
-            helper.Verify(h => h.Output("Hello World "), Times.Once);
-            helper.Verify(h => h.Error("Goodbye Cruel World "), Times.Once);
+            helper.Verify(h => h.Output(StandardOutputMessage), Times.Once);
+            helper.Verify(h => h.Error(StandardErrorMessage), Times.Once);
             helper.Verify(h => h.ProcessStarted(It.IsAny<Process>()), Times.Once);
         }
 
         [Fact]
         public static async Task CanInvokeAProcessAndCaptureStandardError()
         {
-            var psi = new ProcessStartInfo("cmd.exe", "/c @echo Goodbye Cruel World 1>&2");
+            var psi = new ProcessStartInfo("cmd.exe", $"/c @echo {StandardErrorMessage} 1>&2");
             var helper = new Mock<ITestHelper>();
             var cts = new CancellationTokenSource();
             cts.CancelAfter(TimeSpan.FromSeconds(2));
@@ -114,14 +117,14 @@ namespace System.Diagnostics
                              cts.Token).ConfigureAwait(false);
             result.Should().Be(0);
             helper.Verify(h => h.ProcessStarted(It.IsAny<Process>()), Times.Once);
-            helper.Verify(h => h.Error("Goodbye Cruel World "), Times.Once);
+            helper.Verify(h => h.Error(StandardErrorMessage), Times.Once);
             helper.Verify(h => h.Output(It.IsAny<string>()), Times.Never);
         }
 
         [Fact]
         public static async Task CanInvokeAProcessAndCaptureStandardOutput()
         {
-            var psi = new ProcessStartInfo("cmd.exe", "/c @echo Hello World && @echo.");
+            var psi = new ProcessStartInfo("cmd.exe", $"/c @echo {StandardOutputMessage}");
             var helper = new Mock<ITestHelper>();
             var cts = new CancellationTokenSource();
             cts.CancelAfter(TimeSpan.FromSeconds(2));
@@ -132,7 +135,7 @@ namespace System.Diagnostics
                              cts.Token).ConfigureAwait(false);
             result.Should().Be(0);
             helper.Verify(h => h.ProcessStarted(It.IsAny<Process>()), Times.Once);
-            helper.Verify(h => h.Output("Hello World "), Times.Once);
+            helper.Verify(h => h.Output(StandardOutputMessage), Times.Once);
             helper.Verify(h => h.Error(It.IsAny<string>()), Times.Never);
         }
 
@@ -157,7 +160,7 @@ namespace System.Diagnostics
         [Fact]
         public static async Task CanInvokeWithJustCancellationToken()
         {
-            var psi = new ProcessStartInfo("cmd.exe", "/c @echo Hello World");
+            var psi = new ProcessStartInfo("cmd.exe", $"/c @echo {StandardOutputMessage}");
             var cts = new CancellationTokenSource();
             cts.CancelAfter(TimeSpan.FromSeconds(2));
             var result = await psi.StartAsync(cts.Token).ConfigureAwait(false);
@@ -167,7 +170,7 @@ namespace System.Diagnostics
         [Fact]
         public static async Task CanInvokeWithNoArguments()
         {
-            var psi = new ProcessStartInfo("cmd.exe", "/c @echo Hello World");
+            var psi = new ProcessStartInfo("cmd.exe", $"/c @echo {StandardOutputMessage}");
             var result = await psi.StartAsync().ConfigureAwait(false);
             result.Should().Be(0);
         }

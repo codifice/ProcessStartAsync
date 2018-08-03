@@ -10,6 +10,8 @@
     /// </summary>
     public static class ProcessStartInfoEx
     {
+        private const int WaitForExitDelayInMilliseconds = 500;
+
         /// <summary>
         ///     Start the process in an async manner
         /// </summary>
@@ -221,6 +223,7 @@
             var ps = new Process { StartInfo = startInfo, EnableRaisingEvents = true };
             ps.Exited += (sender, eventArgs) =>
                 {
+                    ps.WaitForExit(WaitForExitDelayInMilliseconds);
                     var code = ps.ExitCode;
                     ps.CancelErrorRead();
                     ps.CancelOutputRead();
@@ -233,6 +236,7 @@
                         tcs.TrySetCanceled();
                         try
                         {
+                            ps.WaitForExit(WaitForExitDelayInMilliseconds);
                             if (ps.HasExited)
                             {
                                 return;
@@ -252,14 +256,14 @@
                     {
                         if (e.Data != null)
                         {
-                            outputMessage?.Invoke(e.Data);
+                            PushLine(e.Data, outputMessage);
                         }
                     };
                 ps.ErrorDataReceived += (s, e) =>
                     {
                         if (e.Data != null)
                         {
-                            errorMessage?.Invoke(e.Data);
+                            PushLine(e.Data, errorMessage);
                         }
                     };
                 ps.Start();
@@ -271,6 +275,11 @@
 
                 return await tcs.Task.ConfigureAwait(false);
             }
+        }
+
+        private static void PushLine(string line, Action<string> action)
+        {
+            action?.Invoke(string.IsNullOrWhiteSpace(line) ? line : line.TrimEnd());
         }
     }
 }
