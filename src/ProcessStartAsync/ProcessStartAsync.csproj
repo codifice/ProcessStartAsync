@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.3</TargetFramework>
+    <ProjectGuid>{3124b0f1-e8b5-4db6-862d-685004150bc2}</ProjectGuid>
   <RootNamespace>System.Diagnostics</RootNamespace>
     <Authors>Martin Jarvis</Authors>
     <Company>MCJ Development Ltd</Company>

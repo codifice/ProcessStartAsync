@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net461;</TargetFrameworks>
+    <ProjectGuid>{4e5d4f22-1654-4ac9-9635-14a66869c0fb}</ProjectGuid>
     <IsPackable>false</IsPackable>
     <RootNamespace>System.Diagnostics</RootNamespace>
     <DebugType>full</DebugType>
