@@ -11,6 +11,8 @@ install:
   - choco install gitversion.portable -pre -y
   - choco install codecov -y
   - dotnet tool install --global dotnet-sonarscanner
+  - nuget install xunit.runners -excludeversion
+  - set PATH=%APPVEYOR_BUILD_FOLDER%\xunit.runners\tools;%PATH%
   
 assembly_info:
   patch: false
