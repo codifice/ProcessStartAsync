@@ -1,8 +1,9 @@
 image: Visual Studio 2017
 environment:
-  global:
-    SONAR_KEY:
-      secure: GbMflncwje+wnuVU8gtWsUctEOWNdUs2D1xRejCdqcrwmcGmEIW7jn1YAV8bgyk4 
+  SONAR_KEY:
+    secure: GbMflncwje+wnuVU8gtWsUctEOWNdUs2D1xRejCdqcrwmcGmEIW7jn1YAV8bgyk4 
+  NUGET_KEY:
+    secure: 4ho/dV8xjB0pvW4zm0JjJbrZMtioZm7S37cflQZdZMAPhGUQYezWbWn7nvpi0lvD
 
       # Do not build feature branch with open Pull Requests
 skip_branch_with_pr: true      
