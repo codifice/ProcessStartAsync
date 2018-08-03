@@ -33,3 +33,4 @@ msbuild.wrn
 .vs/
 /src/TestResults/
 **/TestResults/
+**/coverage.opencover.xml
