@@ -223,7 +223,7 @@
             var ps = new Process { StartInfo = startInfo, EnableRaisingEvents = true };
             ps.Exited += (sender, eventArgs) =>
                 {
-                    ps.WaitForExit(WaitForExitDelayInMilliseconds);
+                    ps.WaitForExit();
                     var code = ps.ExitCode;
                     ps.CancelErrorRead();
                     ps.CancelOutputRead();
@@ -236,13 +236,14 @@
                         tcs.TrySetCanceled();
                         try
                         {
-                            ps.WaitForExit(WaitForExitDelayInMilliseconds);
                             if (ps.HasExited)
                             {
                                 return;
                             }
 
                             ps.Kill();
+                            ps.WaitForExit(WaitForExitDelayInMilliseconds);
+                            ps.WaitForExit();
                             ps.Dispose();
                         }
                         catch (InvalidOperationException)
