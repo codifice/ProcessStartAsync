@@ -1,9 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netstandard1.3</TargetFramework>
     <ProjectGuid>{3124b0f1-e8b5-4db6-862d-685004150bc2}</ProjectGuid>
-  <RootNamespace>System.Diagnostics</RootNamespace>
+    <RootNamespace>System.Diagnostics</RootNamespace>
     <Authors>Martin Jarvis</Authors>
     <Company>MCJ Development Ltd</Company>
     <Description>Converts executing a command line process into an Cancellable Task</Description>
@@ -17,26 +16,25 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
     <DocumentationFile>bin\Release\netstandard1.3\ProcessStartAsync.xml</DocumentationFile>
     <CodeAnalysisRuleSet>ProcessStartAsync.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
     <DocumentationFile>bin\Debug\netstandard1.3\ProcessStartAsync.xml</DocumentationFile>
     <CodeAnalysisRuleSet>ProcessStartAsync.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-
+  <ItemGroup>
+    <DotNetCliToolReference Include="dotnet-setversion" Version="*" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" Version="2018.2.1" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta-63127-02" PrivateAssets="All" />
     <PackageReference Include="SonarAnalyzer.CSharp" Version="7.3.1.5982" />
     <PackageReference Include="System.Diagnostics.Process" Version="4.3.0" />
   </ItemGroup>
-
 </Project>
