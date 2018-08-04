@@ -20,16 +20,22 @@ var result = await process.StartAsync();
 result.Should().Be(0);
 ```
 
-### Invoke a process and cancel id it doesn't complete within a set time
+### Invoke a process and cancel if it doesn't complete within a set time
 
 ```csharp
 using System.Diagnostics;
 
 // ...
 
-var process = new ProcessStartInfo("cmd.exe", "/c ping -t 127.0.0.1");
-var cts = new CancellationTokenSource();
-cts.CancelAfter(TimeSpan.FromMinutes(5));
-var result = await process.StartAsync(cts.Token);
-result.Should().Be(0);
+try
+{
+    var process = new ProcessStartInfo("cmd.exe", "/c ping -t 127.0.0.1");
+    var cts = new CancellationTokenSource();
+    cts.CancelAfter(TimeSpan.FromMinutes(1));
+    await process.StartAsync(cts.Token);
+}
+catch (TaskCanceledException)
+{
+    // One minute later
+}
 ```
