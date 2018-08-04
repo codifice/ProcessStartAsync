@@ -5,3 +5,31 @@
 [![codecov](https://codecov.io/gh/martinjarvis/ProcessStartAsync/branch/master/graph/badge.svg)](https://codecov.io/gh/martinjarvis/ProcessStartAsync)
 
 A basic library to launch Processes as Cancellable Tasks
+
+## Usage
+
+### Invoke a process and get the exit code as the result
+
+```csharp
+using System.Diagnostics;
+
+// ...
+
+var process = new ProcessStartInfo("cmd.exe", "/c Hello World!");
+var result = await process.StartAsync();
+result.Should().Be(0);
+```
+
+### Invoke a process and cancel id it doesn't complete within a set time
+
+```csharp
+using System.Diagnostics;
+
+// ...
+
+var process = new ProcessStartInfo("cmd.exe", "/c ping -t 127.0.0.1");
+var cts = new CancellationTokenSource();
+cts.CancelAfter(TimeSpan.FromMinutes(5));
+var result = await process.StartAsync(cts.Token);
+result.Should().Be(0);
+```
