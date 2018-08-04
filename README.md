@@ -39,3 +39,16 @@ catch (TaskCanceledException)
     // One minute later
 }
 ```
+
+### Invoke a process and capture its output in a StringBuilder
+
+```csharp
+using System.Diagnostics;
+
+// ...
+
+var output = new StringBuilder();
+var psi = new ProcessStartInfo("cmd.exe", @"/c tree \");
+await psi.StartAsync((string line) => output.AppendLine(line)).ConfigureAwait(false);
+return output.ToString();
+```
