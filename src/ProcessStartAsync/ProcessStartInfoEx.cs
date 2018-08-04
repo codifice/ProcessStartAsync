@@ -264,7 +264,7 @@
                     {
                         if (e.Data != null)
                         {
-                            PushLine(e.Data, errorMessage);
+                            PushLine(e.Data, errorMessage ?? outputMessage);
                         }
                     };
                 ps.Start();
