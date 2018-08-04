@@ -12,16 +12,17 @@ install:
   - choco install gitversion.portable -pre -y
   - choco install codecov -y
   - dotnet tool install --global dotnet-sonarscanner
-  
+
 assembly_info:
   patch: false
 
 before_build:
-  - nuget restore
+  - cmd: dotnet restore --verbosity m
   - ps: gitversion /l console /output buildserver /updateAssemblyInfo 
   - ps: Update-AppveyorBuild -Version "${env:GitVersion_NuGetVersion}-${env:APPVEYOR_BUILD_NUMBER}"
-  - cmd: dotnet setversion $(gitversion -showvariable NugetVersionV2)
   - cmd: dotnet sonarscanner begin /k:"ProcessStartAsync"  /d:sonar.organization="martinjarvis-github" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="%SONAR_KEY%" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" /d:sonar.coverage.exclusions="test/**" /v:"%GitVersion_NuGetVersion%"
+  - cmd: cd src\ProcessStartAsync
+  - cmd: dotnet setversion $(gitversion -showvariable NugetVersionV2)
      
  
 build:
